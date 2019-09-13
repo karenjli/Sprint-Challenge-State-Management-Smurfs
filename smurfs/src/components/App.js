@@ -1,23 +1,36 @@
 import React, { useEffect } from "react";
 import "./App.css";
 
-import { getSmurf } from "../actions";
+import { getSmurf, addSmurf } from "../actions";
 import Smurf from "../components/smurf";
+//import AddSmurfWithFormik from "./addSmurf";
 import { connect } from "react-redux";
+import AddSmurfForm from "./addSmurfForm";
 
 // class App extends Component {
 //   render() {}
 // }
 
-const App = ({ getSmurf, smurfList, isFetching, error }) => {
+const App = ({ getSmurf, addSmurf, smurfList, isFetching, error }) => {
   useEffect(() => {
     getSmurf();
   }, [getSmurf]);
+
   return (
     <div className="App">
-      {smurfList.map(item => (
-        <Smurf name={item.name} age={item.age} height={item.height} />
-      ))}
+      <div className="add-form">
+        <AddSmurfForm />
+      </div>
+      <div className="smurf-list">
+        {smurfList.map(item => (
+          <Smurf
+            key={item.id}
+            name={item.name}
+            age={item.age}
+            height={item.height}
+          />
+        ))}
+      </div>
     </div>
   );
 };
@@ -31,5 +44,5 @@ const mapStatetoProps = state => {
 };
 export default connect(
   mapStatetoProps,
-  { getSmurf },
+  { getSmurf, addSmurf },
 )(App);
